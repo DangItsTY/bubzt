@@ -1,0 +1,67 @@
+<html>
+<head>
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="shortcut icon" href="">
+<link rel="stylesheet" type="text/css" href="styles.css">
+<title>BubzT</title>
+</head>
+<body>
+<div id="background_region"></div>
+<div id="sidebar_region">
+	<div id="sidebar_button" onclick="sidebar_toggle()"></div>
+	<div id="items"></div>
+</div>
+<script>
+	var theItemFactory = new itemFactory();
+	
+	function initialize() {
+		//	position must be placed on element for JS to work
+		document.getElementById("sidebar_region").style.right = "-180px";
+		document.getElementById("sidebar_region").setAttribute('collapsed', '');
+		theItemFactory.create(16);
+		theItemFactory.render();
+	}
+	initialize();
+	
+	function sidebar_toggle() {
+		var element = document.getElementById("sidebar_region")
+		var r = element.style.right;
+		r = parseInt(r);
+		if (!(element.hasAttribute('collapsed'))) {
+			r = -180;
+			element.setAttribute('collapsed', '');
+		} else {
+			r = -20;
+			element.removeAttribute('collapsed');
+		}
+		console.log(r);
+		
+		element.style.right = r+"px";
+	}
+	
+	function itemFactory() {
+		this.list = [];
+		
+		this.create = function(num) {
+			for (i = 0; i < num; i++) {
+				this.list.push(new item());
+			}
+		};
+		
+		this.render = function() {
+			var element = document.getElementById("items");
+			element.innerHTML = "";
+			var newElement = "";
+			for (i = 0; i < this.list.length; i++) {
+				newElement += this.list[i].htmlValue;
+			}
+			element.innerHTML = newElement;
+		};
+	}
+	
+	function item() {
+		this.htmlValue = "<div class='item'></div>";
+	}
+</script>
+</body>
+</html>

@@ -8,9 +8,9 @@ body {
 #background_region {
 	width:100%;
 	height:100%;
-	background-image:url(Lakeside.png);
+	background-image:url(lakeside.png);
 	background-repeat:no-repeat;
-	background-position: center;
+	background-size:cover;
 }
 
 #sidebar_region {

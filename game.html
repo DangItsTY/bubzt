@@ -7,6 +7,13 @@
 </head>
 <body>
 <div id="background_region"></div>
+<div id="topbar_region">
+	<span id="name_info">Luke Skywalker</span>
+	<span id="level_info">Level: <span id="level_amount">0</span></span>
+	<span id="exp_info">EXP: <span id="exp_amount">0</span></span>
+	<span id="currency_info">$$$: <span id="currency_amount">0</span></span>
+	<span><button onclick="sell()">Sell!</button></span>
+</div>
 <div id="sidebar_region">
 	<div id="sidebar_button" onclick="sidebar_toggle()"></div>
 	<div id="items"></div>
@@ -72,6 +79,9 @@
 	//	Playground
 	//	~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
 	var theItemFactory = new itemFactory();
+	var player_exp = 0;
+	var player_currency = 0;
+	var player_level = 0;
 	
 	function initialize() {
 		//	position must be placed on element for JS to work
@@ -122,6 +132,37 @@
 		this.htmlValue = "<div class='item'></div>";
 	}
 	
+	function sell() {
+		player_exp += 3;
+		player_currency += 20;
+	}
+	
+	function levelFunction(numExp) {
+		//Math.exp(numExp*0.5);
+		return Math.floor(2*Math.log(numExp));
+	}
+	
+	function levelFunction_test(numExp) {
+		return Math.exp(numExp*0.5);
+	}
+	
+	function testFunction() {
+		for (i = 0; i < 100; i++) {
+			console.log(i + ": " + levelFunction_test(i));
+		}
+	}
+	testFunction();
+	
+	function runUpdatePlayer() {
+		player_level = levelFunction(player_exp);
+	}
+	
+	function runRenderStats() {
+		document.getElementById("exp_amount").innerHTML = player_exp;
+		document.getElementById("currency_amount").innerHTML = player_currency;
+		document.getElementById("level_amount").innerHTML = player_level;
+	}
+	
 	
 	//	~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
 	//	The game loop
@@ -138,7 +179,9 @@
 		//	~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
 		//	Do things (batch scripts)
 		//	~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
-		//	runScriptHere
+		//	There's a lot of room for optimization. This runs at every available cycle
+		runUpdatePlayer();
+		runRenderStats();
 	};
 	gameloop();
 </script>
